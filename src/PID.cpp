@@ -15,9 +15,9 @@ PID::PID() {
 PID::~PID() {}
 
 void PID::Init(double cte) {
-  params.push_back(0.49); // 0.35
-  params.push_back(60.0); // 40.0
-  params.push_back(0.0002); // 0.0003
+  params.push_back(0.4);
+  params.push_back(75.0);
+  params.push_back(0.003);
   d_params.push_back(0.1);
   d_params.push_back(5.0);
   d_params.push_back(0.0001);
@@ -50,12 +50,12 @@ void PID::GetSteeringAngle(double cte, double angle, double speed) {
   prev_cte  = cte;
   steer_angle = (p_error + i_error + d_error);
   total_err += (cte*cte) / cnt;
-  if (cnt==5000) {
-    //cnt = 0;
-    //int_cte = 0;
-    cout << "Total Error " << total_err <<  endl;
-    cout << "Best Error: " << best_err << "\n" << endl;
-    Twiddle();
+  if (cnt==500) {
+    cnt = 0;
+    int_cte = 0;
+    //cout << "Total Error " << total_err <<  endl;
+    //cout << "Best Error: " << best_err << "\n" << endl;
+    //Twiddle();
   }
 }
 
@@ -78,7 +78,7 @@ void PID::Twiddle() {
     cnt  = 0;
     d_params[update_cnt] *= 1.1;
     update_cnt += 1;
-    if (update_cnt == 3) {update_cnt = 0;}
+    if (update_cnt == 2) {update_cnt = 0;}
     params[update_cnt] += d_params[update_cnt];
     cout << "After 2, Update Param: " << update_cnt << endl;
     cout << "P: " << params[0] << "  I: " << params[2] << "  D: " << params[1] << endl;
@@ -92,7 +92,7 @@ void PID::Twiddle() {
     int_cte = 0;
     cnt  = 0;
     update_cnt += 1;
-    if (update_cnt == 3) {update_cnt = 0;}
+    if (update_cnt == 2) {update_cnt = 0;}
     params[update_cnt] += d_params[update_cnt];
     cout << "After 3, Update Param: " << update_cnt << endl;
     cout << "P: " << params[0] << "  I: " << params[2] << "  D: " << params[1] << endl;

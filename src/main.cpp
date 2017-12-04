@@ -52,13 +52,29 @@ int main()
           double angle = std::stod(j[1]["steering_angle"].get<std::string>());
           double steer_value;
           double desired_speed;
-          if (fabs(cte) > 0.5) {desired_speed =  40;}
-          else if (fabs(cte) > 0.4) {desired_speed =  50;}
-          else if (fabs(cte) > 0.3) {desired_speed =  60;}
-          else if (fabs(cte) > 0.2) {desired_speed =  70;}
-          else {desired_speed = 90;}
-          double speed_error = desired_speed - speed;
-          double throttle = speed_error / desired_speed;
+          double speed_error;
+          double throttle;
+          if (fabs(cte) > 0.6) {
+            desired_speed = 55;
+            speed_error = desired_speed - speed;
+            throttle = speed_error / desired_speed;
+          }
+          else if (fabs(cte) > 0.5) {
+            desired_speed = 65;
+            speed_error = desired_speed - speed;
+            throttle = speed_error / desired_speed;
+          }
+          else if (fabs(cte) > 0.4) {
+            desired_speed = 70;
+            speed_error = desired_speed - speed;
+            throttle = speed_error / desired_speed;
+          }
+          else if (fabs(cte) > 0.3) {
+            desired_speed = 75;
+            speed_error = desired_speed - speed;
+            throttle = speed_error / desired_speed;
+          }
+          else {throttle = 1;}
           /*
           * TODO: Calcuate steering value here, remember the steering value is
           * [-1, 1].
