@@ -7,12 +7,6 @@
 // for convenience
 using json = nlohmann::json;
 
-// For converting back and forth between radians and degrees.
-constexpr double pi() { return M_PI; }
-double deg2rad(double x) { return x * pi() / 180; }
-double rad2deg(double x) { return x * 180 / pi(); }
-//time_t timer;
-
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
 // else the empty string "" will be returned.
@@ -49,53 +43,29 @@ int main()
           // j[1] is the data JSON object
           double cte = std::stod(j[1]["cte"].get<std::string>());
           double speed = std::stod(j[1]["speed"].get<std::string>());
-          double angle = std::stod(j[1]["steering_angle"].get<std::string>());
-          double steer_value;
-          double desired_speed;
-          double speed_error;
+          double steer_angle;
           double throttle;
-          if (fabs(cte) > 0.6) {
-            desired_speed = 55;
-            speed_error = desired_speed - speed;
-            throttle = speed_error / desired_speed;
-          }
-          else if (fabs(cte) > 0.5) {
-            desired_speed = 65;
-            speed_error = desired_speed - speed;
-            throttle = speed_error / desired_speed;
-          }
-          else if (fabs(cte) > 0.4) {
-            desired_speed = 70;
-            speed_error = desired_speed - speed;
-            throttle = speed_error / desired_speed;
-          }
-          else if (fabs(cte) > 0.3) {
-            desired_speed = 75;
-            speed_error = desired_speed - speed;
-            throttle = speed_error / desired_speed;
-          }
-          else {throttle = 1;}
-          /*
-          * TODO: Calcuate steering value here, remember the steering value is
-          * [-1, 1].
-          * NOTE: Feel free to play around with the throttle and speed. Maybe use
-          * another PID controller to control the speed!
-          */
+          
+          // Check if PID is initialized and initialize if not
           if (!pid.is_initialized) {
             pid.Init(cte);
           }
           
-          pid.GetSteeringAngle(cte, deg2rad(angle), speed);
-          steer_value = pid.steer_angle;
+          // Caclulate steering angle
+          pid.GetSteeringAngle(cte, speed);
+          steer_angle = pid.steer_angle;
           
-          // DEBUG
-          //std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
-
+          // Calculate throttle and ensure it is between [-1,1]
+          pid.GetThrottle(cte, speed);
+          if (pid.throttle < -1) {throttle = -1;}
+          else if (pid.throttle > 1) {throttle = 1;}
+          else {throttle = pid.throttle;}
+          
           json msgJson;
-          msgJson["steering_angle"] = steer_value;
+          msgJson["steering_angle"] = steer_angle;
           msgJson["throttle"] = throttle;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
-          //std::cout << msg << std::endl;
+          std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
         }
       } else {

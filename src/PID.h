@@ -7,14 +7,40 @@ using namespace std;
 
 class PID {
 public:
+  /*
+   * Booleans for initialization, whether to run Twiddle, and which Twiddle step
+   */
   bool is_initialized;
+  bool twiddle;
   bool second_try;
-  double steer_angle;
+  
+  /*
+   * cnt and update cnt for Twiddle
+   */
   int cnt;
   int update_cnt;
+  
+  /*
+   * change in time between messages from simulator
+   */
   double dt;
-  double total_err;
-  double best_err;
+  
+  /*
+   * Steer angle from PID controller
+   */
+  double steer_angle;
+  
+  /*
+   * Throttle
+   */
+  double throttle;
+  
+  /*
+   * Desired speed based on CTE and speed error
+   */
+  double desired_speed;
+  double speed_error;
+  
   /*
   * Errors
   */
@@ -23,6 +49,8 @@ public:
   double d_error;
   double prev_cte;
   double int_cte;
+  double total_err;
+  double best_err;
 
   /*
   * Coefficients
@@ -46,12 +74,17 @@ public:
   void Init(double cte);
 
   /*
-  * Update the PID error variables given cross track error.
+  * Udate Steering angle with PID Controller.
   */
-  void GetSteeringAngle(double cte, double angle, double speed);
+  void GetSteeringAngle(double cte, double speed);
+  
+  /*
+   * Update throttle based on current CTE
+   */
+  void GetThrottle(double cte, double speed);
 
   /*
-  * Calculate the total PID error.
+  * Twiddle algorithm for tuning.
   */
   void Twiddle();
 };
