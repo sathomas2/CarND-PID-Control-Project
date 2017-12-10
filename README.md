@@ -29,26 +29,35 @@ Everything in the root directory, except for this README, was provided by Udacit
 
 ### PID Controller:
 Given a desired set point SP=r(t) and a process variable PV=y(t), I can measure an error term at every time step e(t) as the diffence between them. 
+ 
  <figure>
   <img src="readme_images/CTE.png"/>
 </figure>
  <p></p>
+ 
 The PID controller minimizes e(t) by updating a control variable u(t) at each time step. For example, if the SP is the center of the lane, then e(t) is the distance of the car from the lane center or its cross-track error (CTE). By updating u(t) or the steering angle at each time step, the PID controller will minimize the CTE. As its name suggests, there are three terms to this update, proportional (P), integral (I), and derivative (D), so that:
+ 
  <figure>
   <img src="readme_images/PID.png"/>
 </figure>
  <p></p>
+ 
  The proportional term is the product of the CTE and a parameter that must be tuned, the P-gain (Kp).
+ 
  <figure>
   <img src="readme_images/P.png"/>
 </figure>
  <p></p>
+ 
  The integral term is the product of the integral of the CTE over time and a parameter, the I-gain (Ki).
+ 
  <figure>
   <img src="readme_images/I.png"/>
 </figure>
  <p></p>
+ 
  The derivative term is the product of the derivative of the CTE with respect to time or its rate of change and a parameter, the D-gain (Kd).
+ 
  <figure>
   <img src="readme_images/D.png"/>
 </figure>
@@ -58,6 +67,7 @@ The PID controller minimizes e(t) by updating a control variable u(t) at each ti
   <img src="readme_images/PIDcomplete.png"/>
 </figure>
  <p></p>
+ 
 For my implementation, see PID.cpp lines 54-79.
 
 ### Tuning the Gain Parameters:
