@@ -25,7 +25,7 @@ root
     |   json.hpp
 ```
 
-Everything in the root directory, except for this README, was provided by Udacity to install the necessary dependencies. CODEOWNERS is the citation of the author of the starter code. The readme_images directory contains the images in this README. main.cpp connects to the simulator using WebSocketIO and makes the necessary calls to the PID class. PID.cpp contains my implementation of the PID controller as well as a simple solution I devised for controlling the throttle and breaks of an autonomous vehicle.
+Everything in the root directory, except for this README, was provided by Udacity to install the necessary dependencies. CODEOWNERS is the citation of the author of the starter code. The readme_images directory contains the images in this README. main.cpp connects to the simulator using WebSocketIO and makes the necessary calls to the PID class. PID.cpp contains my implementation of the PID controller as well as a simple solution I devised for controlling the throttle and brakes of an autonomous vehicle.
 
 ### PID Controller:
 Given a desired set point SP=r(t) and a process variable PV=y(t), I can measure an error term at every time step e(t) as the diffence between them. 
@@ -71,5 +71,8 @@ The PID controller minimizes e(t) by updating a control variable u(t) at each ti
 For my implementation, see PID.cpp lines 54-79.
 
 ### Tuning the Gain Parameters:
+
 ### Throttle Control:
+At each time step, not only does the car need to know by how much to turn, but it also needs to know by how much to brake or accelerate. I chose a relatively simple solution that keeps the car between 40-50mph for most of the track. I use a series of if-else statements that determines how much to speed up or slow down based on the car's current speed and CTE. The farther away from the lane center the car is, the less throttle it applies. Therefore, on straight runs, where the PID controller is good at keeping the car in the center of the lane, more throttle is applied. On sharp turns, where the PID controller commonly underturns then overturns to compensate, less throttle or perhaps even braking is applied, so the car slows, allowing it to more quickly recenter. Although this solution is not the most sophisticated, it is simple and works well with the PID controller. See PID.cpp lines 81-118.
+
 ### Results:
