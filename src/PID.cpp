@@ -20,11 +20,11 @@ void PID::Init(double cte) {
   // Set values of Pgain, Dgain, and Igain, respectively
   params.push_back(0.53);
   params.push_back(1.75);
-  params.push_back(0.002);
+  params.push_back(0.0002);
   // Set d_gain values if using Twiddle;
   d_params.push_back(0.10);
   d_params.push_back(0.10);
-  d_params.push_back(0.001);
+  d_params.push_back(0.0001);
   
   // second_try is used in Twiddle to decrease d_param if increasing or decreasing gain
   // did not improve performance
@@ -56,7 +56,7 @@ void PID::GetSteeringAngle(double cte, double speed) {
    * PID Controller
    */
   cnt+=1;
-  int_cte += cte*dt;
+  int_cte += cte;
   p_error = -params[0] * cte;
   i_error = -params[2] * int_cte;
   d_error = -params[1] * ((cte - prev_cte)/dt);
