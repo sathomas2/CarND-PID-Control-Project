@@ -33,9 +33,7 @@ Given a desired set point SP=r(t) and a process variable PV=y(t), I can measure 
   <img src="readme_images/CTE.png"/>
 </figure>
  <p></p>
-The PID controller minimizes e(t) by updating a control variable u(t) at each time step. For example, if the SP is the center of the lane, then e(t) is the distance of the car from the lane center or its cross-track error (CTE). By updating u(t) or the steering angle at each time step, the PID controller will minimize the CTE.
-
-As its name suggests, there are three terms to this update, proportional (P), integral (I), and derivative (D), so that:
+The PID controller minimizes e(t) by updating a control variable u(t) at each time step. For example, if the SP is the center of the lane, then e(t) is the distance of the car from the lane center or its cross-track error (CTE). By updating u(t) or the steering angle at each time step, the PID controller will minimize the CTE. As its name suggests, there are three terms to this update, proportional (P), integral (I), and derivative (D), so that:
  <figure>
   <img src="readme_images/PID.png"/>
 </figure>
