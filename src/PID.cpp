@@ -41,8 +41,6 @@ void PID::Init(double cte) {
   best_err = -1;
   total_err = 0.0;
 
-  // Change in time in seconds between information received from simulator. This is approximate
-  // (apprx. 50 steps/sec), but does the job for PID controller.
   prev_cte = cte;
   int_cte = 0.0;
   steer_angle = 0.0;
