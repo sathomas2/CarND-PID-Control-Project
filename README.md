@@ -83,5 +83,10 @@ The I term is introduced to ensure that the controller does not favor one side o
 At each time step, not only does the car need to know by how much to turn, but it also needs to know by how much to brake or accelerate. I chose a relatively simple solution that keeps the car between 40-50mph for most of the track. I use a series of if-else statements that determines how much to speed up or slow down based on the car's current speed and CTE. The farther away from the lane center the car is, the less throttle it applies. Therefore, on straight runs, where the PID controller is good at keeping the car in the center of the lane, more throttle is applied. On sharp turns, where the PID controller commonly underturns then overturns to compensate, less throttle or perhaps even braking is applied, so the car slows, allowing it to more quickly recenter. Although this solution is not the most sophisticated, it is simple and works well with the PID controller. See PID.cpp lines 81-118.
 
 ### Results:
-
+ <figure>
+  <a href="https://www.youtube.com/watch?v=9eERXKn2QGY">
+  <img src="readme_images/youtube.png"/>
+</figure>
+ <p></p>
+ 
 Click on the above picture to see the first minute of my results. Recording the screen slows the controller's interactions with the simulator, so running it without recording improves the results. Nonetheless, the PID controller works fairly well. See how the car keeps drifting slightly to the right on the first straight section before recentering. That is because the road is not completely straight. An obvious shortcoming of PID controllers is that, whenever there the road curves, the controller underturns. PID controllers are not designed to anticipate how conditions might change in the future. Not a bad start, but I think we might need something more sophisticated...
