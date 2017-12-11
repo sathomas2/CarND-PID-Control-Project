@@ -68,11 +68,20 @@ The PID controller minimizes e(t) by updating a control variable u(t) at each ti
 </figure>
  <p></p>
  
-For my implementation, see PID.cpp lines 54-79.
+It is assumed that for this project, all the gain values are negative. For my implementation, see PID.cpp lines 54-79.
 
 ### Tuning the Gain Parameters:
+I used the twiddle algorithm (PID.cpp lines 128-188) to tune the gain parameters. Although twiddle was good at suggesting which parameters needed to be increased or decreased, it often got stuck at local minima. So I would run twiddle for several iterations, each parameter change running for 5,000 steps or approximately one loop around the track. Once the parameters reached local minima, I would manually tune, using my intuition, then go back to twiddle, initializing my parameters with my current best set, until my PID controller effectively minimized the CTE to keep the car safely on the road. 
+
+To tune manually, I used my intuition about what each term does. The P term adjusts the steering angle to turn more sharply towards the center as the CTE grows larger. Since the car must turn to reach the center, once the CTE is zero, the car is not parallel with the imaginary line depicting the ideal path, so the car overshoots, causing the CTE to accumlate in the opposite direction. Therefore, a P controller without the I or D terms would cause the car to oscillate around the lane center. An example of when to increase Kp is if the car drives off-road because it is not turning enough on sharp curves.
+
+The D term is introduced to combat this osciallition. If the car is on the right side of the lane and turning too sharply toward the center (i.e., the steering angle is a large negative value), then the D term will produce a positive value as opposed to the negative value produced by the P term, ideally smoothing that sharp turn. An example of when to increase Kd is if the car osicallates too much. Kd might need to be decreased if the steering angle is bouncing back and forth drastically or if the car is unable to quickly recenter when it veers off course.
+
+The I term is introduced to ensure that the controller does not favor one side of the road over the other. For example, this could happen if the car's wheels are not alligned so it naturally drifts to the left or right. If most of the time the car is driving close to the lane center or if it regularly osciallates about the lane center, the I term will be 0 or close to it.
 
 ### Throttle Control:
 At each time step, not only does the car need to know by how much to turn, but it also needs to know by how much to brake or accelerate. I chose a relatively simple solution that keeps the car between 40-50mph for most of the track. I use a series of if-else statements that determines how much to speed up or slow down based on the car's current speed and CTE. The farther away from the lane center the car is, the less throttle it applies. Therefore, on straight runs, where the PID controller is good at keeping the car in the center of the lane, more throttle is applied. On sharp turns, where the PID controller commonly underturns then overturns to compensate, less throttle or perhaps even braking is applied, so the car slows, allowing it to more quickly recenter. Although this solution is not the most sophisticated, it is simple and works well with the PID controller. See PID.cpp lines 81-118.
 
 ### Results:
+
+Click on the above picture to see the first minute of my results. Recording the screen slows the controller's interactions with the simulator, so running it without recording improves the results. Nonetheless, the PID controller works fairly well. See how the car keeps drifting slightly to the right on the first straight section before recentering. That is because the road is not completely straight. An obvious shortcoming of PID controllers is that, whenever there the road curves, the controller underturns. PID controllers are not designed to anticipate how conditions might change in the future. Not a bad start, but I think we might need something more sophisticated...
