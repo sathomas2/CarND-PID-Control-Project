@@ -87,6 +87,7 @@ At each time step, not only does the car need to know by how much to turn, but i
   <a href="https://www.youtube.com/watch?v=9eERXKn2QGY">
   <img src="readme_images/youtube.png"/>
 </figure>
+</a>
  <p></p>
  
 Click on the above picture to see the first minute of my results. Recording the screen slows the controller's interactions with the simulator, so running it without recording improves the results. Nonetheless, the PID controller works fairly well. See how the car keeps drifting slightly to the right on the first straight section before recentering. That is because the road is not completely straight. An obvious shortcoming of PID controllers is that, whenever there the road curves, the controller underturns. PID controllers are not designed to anticipate how conditions might change in the future. Not a bad start, but I think we might need something more sophisticated...
