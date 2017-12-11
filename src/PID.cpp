@@ -63,7 +63,6 @@ void PID::GetSteeringAngle(double cte, double speed) {
   else {
     dt = chrono::duration_cast<chrono::duration<double>>(cur_t-prev_t).count();
   }
-  cout << "dt: " << dt << endl;
   int_cte += cte*dt;
   p_error = -params[0] * cte;
   i_error = -params[2] * int_cte;
@@ -95,22 +94,22 @@ void PID::GetThrottle(double cte, double speed) {
   // Ensure no division by 0
   speed = speed + 0.001;
   if (fabs(cte) > 0.6) {
-    desired_speed = 50;
+    desired_speed = 40;
     speed_error = desired_speed - speed;
     throttle = speed_error / speed;
   }
   else if (fabs(cte) > 0.5) {
-    desired_speed = 55;
+    desired_speed = 45;
     speed_error = desired_speed - speed;
     throttle = speed_error / speed;
   }
   else if (fabs(cte) > 0.4) {
-    desired_speed = 60;
+    desired_speed = 55;
     speed_error = desired_speed - speed;
     throttle = speed_error / speed;
   }
   else if (fabs(cte) > 0.3) {
-    desired_speed = 65;
+    desired_speed = 60;
     speed_error = desired_speed - speed;
     throttle = speed_error / speed;
   }
