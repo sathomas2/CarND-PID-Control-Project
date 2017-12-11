@@ -1,6 +1,6 @@
 # PID Controller for Autonomous Cars
 ### Overview:
-Assuming an autonomous car has accurately perceived its environment with cameras, LIDAR, RADAR, GPS, or other sensors, the problem remains of what it should do with that information. The problem is twofold. What path should it take? And, how should it behave to follow that path? In this project, the problem is simplified because the track in the Udacity simulator is a single lane road with turns that ultimately forms a large loop. Therefore, the car's best path is stay in the center of the lane. In a first attempt to achieve this, I will implement a proportional-integral-derivative (PID) controller to control the steering angle of the car. 
+Assuming an autonomous car has accurately perceived its environment with cameras, LIDAR, RADAR, GPS, or other sensors, the problem remains of what it should do with that information. The problem is twofold. What path should it take? And, how should it behave to follow that path? In this project, the problem is simplified because the track in the Udacity simulator is a single lane road with turns that ultimately forms a large loop. Therefore, the car's best path is to stay in the center of the lane. In a first attempt to achieve this, I will implement a proportional-integral-derivative (PID) controller to control the steering angle of the car. 
 
 The contents of this repository include:
 ```
