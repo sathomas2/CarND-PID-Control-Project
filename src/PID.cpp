@@ -19,12 +19,12 @@ void PID::Init(double cte) {
   
   // Set values of Pgain, Dgain, and Igain, respectively
   params.push_back(0.53);
-  params.push_back(1.75);
-  params.push_back(0.0002);
+  params.push_back(1.71);
+  params.push_back(0.002);
   // Set d_gain values if using Twiddle;
   d_params.push_back(0.10);
   d_params.push_back(0.10);
-  d_params.push_back(0.0001);
+  d_params.push_back(0.001);
   
   // second_try is used in Twiddle to decrease d_param if increasing or decreasing gain
   // did not improve performance

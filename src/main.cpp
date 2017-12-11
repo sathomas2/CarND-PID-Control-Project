@@ -53,7 +53,9 @@ int main()
           
           // Caclulate steering angle
           pid.GetSteeringAngle(cte, speed);
-          steer_angle = pid.steer_angle;
+          if (pid.steer_angle < -1) {steer_angle = -1;}
+          else if (pid.steer_angle > 1) {steer_angle = 1;}
+          else {steer_angle = pid.steer_angle;}
           
           // Calculate throttle and ensure it is between [-1,1]
           pid.GetThrottle(cte, speed);
