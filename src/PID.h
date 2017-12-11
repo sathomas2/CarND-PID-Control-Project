@@ -3,6 +3,8 @@
 #include<time.h>
 #include<iostream>
 #include<vector>
+#include<chrono>
+
 using namespace std;
 
 class PID {
@@ -21,9 +23,11 @@ public:
   int update_cnt;
   
   /*
-   * change in time between messages from simulator
+   * change in time between messages from simulator in seconds and previous and current times
    */
   double dt;
+  chrono::high_resolution_clock::time_point prev_t;
+  chrono::high_resolution_clock::time_point cur_t;
   
   /*
    * Steer angle from PID controller

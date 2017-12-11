@@ -1,6 +1,7 @@
 #include "PID.h"
 #include<iostream>
 #include <math.h>
+#include <chrono>
 
 using namespace std;
 
@@ -20,7 +21,7 @@ void PID::Init(double cte) {
   // Set values of Pgain, Dgain, and Igain, respectively
   params.push_back(0.53);
   params.push_back(1.71);
-  params.push_back(0.002);
+  params.push_back(0.005);
   // Set d_gain values if using Twiddle;
   d_params.push_back(0.10);
   d_params.push_back(0.10);
@@ -42,8 +43,6 @@ void PID::Init(double cte) {
 
   // Change in time in seconds between information received from simulator. This is approximate
   // (apprx. 50 steps/sec), but does the job for PID controller.
-  dt = 0.02;
-  
   prev_cte = cte;
   int_cte = 0.0;
   steer_angle = 0.0;
@@ -56,7 +55,16 @@ void PID::GetSteeringAngle(double cte, double speed) {
    * PID Controller
    */
   cnt+=1;
-  int_cte += cte;
+  cur_t = chrono::high_resolution_clock::now();
+  // Since first change in time cannot be calculated at first step, approximate
+  if (cnt==1) {
+    dt = 0.015;
+  }
+  else {
+    dt = chrono::duration_cast<chrono::duration<double>>(cur_t-prev_t).count();
+  }
+  cout << "dt: " << dt << endl;
+  int_cte += cte*dt;
   p_error = -params[0] * cte;
   i_error = -params[2] * int_cte;
   d_error = -params[1] * ((cte - prev_cte)/dt);
@@ -76,6 +84,7 @@ void PID::GetSteeringAngle(double cte, double speed) {
       int_cte = 0;
     }
   }
+  prev_t = cur_t;
 }
 
 void PID::GetThrottle(double cte, double speed) {

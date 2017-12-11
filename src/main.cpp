@@ -3,6 +3,7 @@
 #include "json.hpp"
 #include "PID.h"
 #include <math.h>
+#include <chrono>
 
 // for convenience
 using json = nlohmann::json;
@@ -49,7 +50,7 @@ int main()
           // Check if PID is initialized and initialize if not
           if (!pid.is_initialized) {
             pid.Init(cte);
-          }
+          } 
           
           // Caclulate steering angle
           pid.GetSteeringAngle(cte, speed);
