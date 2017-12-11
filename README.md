@@ -68,7 +68,7 @@ The PID controller minimizes e(t) by updating a control variable u(t) at each ti
 </figure>
  <p></p>
  
-It is assumed that for this project, all the gain values are negative. For my implementation, see PID.cpp lines 54-79.
+It is assumed that for this project all the gain values are negative. For my implementation, see PID.cpp lines 54-79.
 
 ### Tuning the Gain Parameters:
 I used the twiddle algorithm (PID.cpp lines 128-188) to tune the gain parameters. Although twiddle was good at suggesting which parameters needed to be increased or decreased, it often got stuck at local minima. So I would run twiddle for several iterations, each parameter change running for 5,000 steps or approximately one loop around the track. Once the parameters reached local minima, I would manually tune, using my intuition, then go back to twiddle, initializing my parameters with my current best set, until my PID controller effectively minimized the CTE to keep the car safely on the road. 
